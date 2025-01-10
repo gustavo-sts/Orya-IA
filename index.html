@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orya</title>
+
+  <style>
+    /* Reset básico */
+  body, h1, form, input, button, div {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+  
+  /* Corpo da página */
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradiente azul */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 100vh;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  }
+
+  h1{
+    font-size: 25px;
+  }
+  
+  /* Contêiner do Chat */
+  .chat-container {
+  width: 100%;
+  max-width: 420px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.1); /* Efeito de vidro */
+  backdrop-filter: blur(10px); /* Glassmorphism */
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Drop shadow */
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out; /* Animação de entrada */
+  }
+  
+  /* Janela de chat */
+  #chat-window {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  #messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  }
+  
+  .message {
+  padding: 12px 18px;
+  border-radius: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
+  transition: all 0.2s ease; /* Animação de transição */
+  }
+  
+  /* Estilo para a mensagem do usuário */
+  .message.user {
+  background-color: rgba(0, 123, 255, 0.8); /* Azul claro */
+  color: #fff;
+  align-self: flex-end;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5); /* Drop shadow */
+  }
+  
+  /* Estilo para a mensagem do chatbot */
+  .message.bot {
+  background-color: rgba(255, 255, 255, 0.3); /* Fundo semi-transparente */
+  color: #fff;
+  align-self: flex-start;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Drop shadow */
+  }
+  
+  /* Formulário de envio */
+  #chat-form {
+  display: flex;
+  padding: 15px;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2); /* Transparente para o efeito de vidro */
+  }
+  
+  #user-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 50px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  }
+  
+  #user-input:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+  }
+  
+  /* Botão de envio */
+  button {
+  padding: 12px 18px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* Animação de escala */
+  }
+  
+  button:active {
+  transform: scale(0.98);
+  }
+  
+  /* Animação de fade-in */
+  @keyframes fadeIn {
+  0% {
+  opacity: 0;
+  transform: translateY(-10px);
+  }
+  100% {
+  opacity: 1;
+  transform: translateY(0);
+  }
+  }
+  
+  /* Efeito de rolagem suave */
+  html {
+  scroll-behavior: smooth;
+  }
+
+  </style>
+  
+</head>
+
+<body>
+  <h1>Bem vindo a IA Orya!</h1>
+  <div class="chat-container">
+    <div id="chat-window">
+      <div id="messages">
+        <!-- Mensagens aparecerão aqui -->
+      </div>
+    </div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Digite sua mensagem..." autocomplete="off">
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script>
+      const chatForm = document.getElementById("chat-form");
+      const messagesDiv = document.getElementById("messages");
+      const userInput = document.getElementById("user-input");
+
+      let history = []
+
+      // Função para exibir uma mensagem na tela
+      function displayMessage(sender, text) {
+        sessionStorage.setItem('historico', JSON.stringify({sender: sender, text: text}))
+        history.push(sessionStorage.getItem('historico'))
+        const messageDiv = document.createElement("div");
+
+        // Substitui espaços no nome do sender por hífen, para evitar erros ao adicionar como classe
+        const senderClass = sender.toLowerCase().replace(/\s+/g, '-');
+
+        console.log(sender)
+
+        messageDiv.classList.add("message", senderClass); // Adiciona a classe para o sender
+        messageDiv.innerHTML = text;
+        messagesDiv.appendChild(messageDiv);
+        if(messageDiv.innerHTML) {messagesDiv.scrollTop = messagesDiv.scrollHeight};
+
+        
+      }
+
+      // Manipular envio do formulário
+      chatForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userMessage = userInput.value.trim();
+        if (!userMessage) return;
+
+        // Exibir mensagem do usuário
+        displayMessage("user", userMessage);
+        userInput.value = ""; // Limpar campo de entrada
+
+        // Fazer requisição para o backend
+        fetch("https://backend-chat-bot-tvvx.onrender.com/api/generate-content", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify( { text: userMessage, history: history } ),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Exibir resposta do bot
+            const { sender, message } = data;// Agora o backend envia sender e message
+            console.log(message)
+            displayMessage(sender, message.candidates[0].content.parts[0].text); // Usar o sender e mensagem para exibir
+          })
+          .catch((error) => {
+            console.error("Erro:", error.message);
+            displayMessage("bot", "Desculpe, algo deu errado. Tente novamente mais tarde.");
+          });
+      });
+
+  </script>
+</body>
+
+</html>
