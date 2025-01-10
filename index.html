@@ -7,15 +7,15 @@
   <title>Orya</title>
 
   <style>
-    /* Reset básico */
-  body, h1, form, input, button, div {
+/* Reset básico */
+body, h1, form, input, button, div {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  }
-  
-  /* Corpo da página */
-  body {
+}
+
+/* Corpo da página */
+body {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradiente azul */
   color: #fff;
@@ -27,14 +27,14 @@
   height: 100vh;
   overflow: hidden;
   transition: all 0.3s ease;
-  }
+}
 
-  h1{
-    font-size: 25px;
-  }
-  
-  /* Contêiner do Chat */
-  .chat-container {
+h1 {
+  font-size: 25px;
+}
+
+/* Contêiner do Chat */
+.chat-container {
   width: 100%;
   max-width: 420px;
   height: 600px;
@@ -46,60 +46,60 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Drop shadow */
   overflow: hidden;
   animation: fadeIn 1s ease-in-out; /* Animação de entrada */
-  }
-  
-  /* Janela de chat */
-  #chat-window {
+}
+
+/* Janela de chat */
+#chat-window {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
   scroll-behavior: smooth;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  }
-  
-  #messages {
+}
+
+#messages {
   display: flex;
   flex-direction: column;
   gap: 10px;
   height: 100%;
   overflow-y: auto;
   scroll-behavior: smooth;
-  }
-  
-  .message {
+}
+
+.message {
   padding: 12px 18px;
   border-radius: 20px;
   max-width: 75%;
   word-wrap: break-word;
   transition: all 0.2s ease; /* Animação de transição */
-  }
-  
-  /* Estilo para a mensagem do usuário */
-  .message.user {
+}
+
+/* Estilo para a mensagem do usuário */
+.message.user {
   background-color: rgba(0, 123, 255, 0.8); /* Azul claro */
   color: #fff;
   align-self: flex-end;
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5); /* Drop shadow */
-  }
-  
-  /* Estilo para a mensagem do chatbot */
-  .message.bot {
+}
+
+/* Estilo para a mensagem do chatbot */
+.message.bot {
   background-color: rgba(255, 255, 255, 0.3); /* Fundo semi-transparente */
   color: #fff;
   align-self: flex-start;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Drop shadow */
-  }
-  
-  /* Formulário de envio */
-  #chat-form {
+}
+
+/* Formulário de envio */
+#chat-form {
   display: flex;
   padding: 15px;
   gap: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.2); /* Transparente para o efeito de vidro */
-  }
-  
-  #user-input {
+}
+
+#user-input {
   flex: 1;
   padding: 12px 16px;
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -109,15 +109,15 @@
   font-size: 16px;
   outline: none;
   transition: all 0.3s ease;
-  }
-  
-  #user-input:focus {
+}
+
+#user-input:focus {
   border-color: #007BFF;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
-  }
-  
-  /* Botão de envio */
-  button {
+}
+
+/* Botão de envio */
+button {
   padding: 12px 18px;
   font-size: 16px;
   background-color: #007BFF;
@@ -126,42 +126,67 @@
   border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
   background-color: #0056b3;
   transform: scale(1.05); /* Animação de escala */
-  }
-  
-  button:active {
+}
+
+button:active {
   transform: scale(0.98);
-  }
-  
-  /* Animação de fade-in */
-  @keyframes fadeIn {
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
   0% {
-  opacity: 0;
-  transform: translateY(-10px);
+    opacity: 0;
+    transform: translateY(-10px);
   }
   100% {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+/* Efeito de rolagem suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    height: auto;
+    justify-content: center;
   }
   
-  /* Efeito de rolagem suave */
-  html {
-  scroll-behavior: smooth;
+  .chat-container {
+    max-width: 100%;
+    height: 500px;
   }
 
-    @media (max-width: 600px){
-      .chat-container {
-  max-width: 80%;
-  height: 70%
-      }
-      input{
-        width: 100px;
-      }
+  h1 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-container {
+    height: 400px;
+  }
+
+  #chat-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
 
   </style>
   
